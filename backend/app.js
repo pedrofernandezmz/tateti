@@ -95,3 +95,5 @@ app.post('/reiniciar-resultados', (req, res) => {
 app.listen(port, () => {
   console.log(`Aplicación escuchando en el puerto ${port}`);
 });
+
+module.exports = app;
