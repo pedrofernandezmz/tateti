@@ -1,0 +1,51 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: mydb
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and start MySQL container
+        run: |
+          docker build -t mydb ./database
+          docker run -d --name mydb -p 3306:3306 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 mydb
+        working-directory: .
+
+      - name: Wait for MySQL to be healthy
+        run: |
+          until docker inspect -f "{{.State.Health.Status}}" mydb | grep -q "healthy"; do
+            sleep 5
+          done
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install project dependencies
+        run: npm install
+        working-directory: ./backend
+
+      - name: Start Node.js backend
+        run: npm start
+        working-directory: ./backend
+
+      - name: Run Mocha tests
+        run: npx mocha
+        working-directory: ./backend
