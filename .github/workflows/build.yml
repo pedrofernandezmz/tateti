@@ -21,31 +21,39 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build and start MySQL container
+      - name: Build y Correr contenedor MySQL
         run: |
           docker build -t mydb ./database
           docker run -d --name mydb -p 3306:3306 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 mydb
         working-directory: .
 
-      - name: Wait for MySQL to be healthy
+      - name: Esperar que MySQL sea healthy
         run: |
           until docker inspect -f "{{.State.Health.Status}}" mydb | grep -q "healthy"; do
             sleep 5
           done
 
-      - name: Install Node.js
+      - name: Instalar Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 14
 
-      - name: Install project dependencies
+      - name: Instalar dependencias
         run: npm install
         working-directory: ./backend
 
-      - name: Start Node.js backend
-        run: nohup node app.js &    # Ejecuta la aplicación en segundo plano
+      - name: Correr Tests
+        run: |
+          test_result=$(npx mocha)
+          echo "$test_result"
+          if [[ "$test_result" == *"5 passing"* ]]; then
+            echo "Las pruebas pasaron exitosamente."
+          else
+            echo "Las pruebas no pasaron como se esperaban. Deteniendo Workflow."
+            exit 1
+          fi
         working-directory: ./backend
 
-      - name: Run Mocha tests
-        run: npx mocha
+      - name: Correr backend
+        run: nohup node app.js &    # Ejecuta la aplicación en segundo plano
         working-directory: ./backend
