@@ -46,6 +46,20 @@ jobs:
         run: nohup npx mocha &
         working-directory: ./backend
 
+      - name: Verificar resultados de las pruebas
+        run: |
+          sleep 60  # Espera un tiempo para que las pruebas se ejecuten
+
+          test_result=$(tail -n 10 nohup.out)
+          echo "$test_result"
+          if [[ "$test_result" == *"5 passing"* ]]; then
+            echo "Las pruebas pasaron exitosamente."
+          else
+            echo "Las pruebas no pasaron como se esperaba. Terminando el flujo de trabajo."
+            exit 1
+          fi
+        working-directory: ./backend
+
       - name: Correr backend
         run: nohup node app.js &    # Ejecuta la aplicación en segundo plano
         working-directory: ./backend
