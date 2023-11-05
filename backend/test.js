@@ -40,7 +40,7 @@ describe('Pruebas unitarias para la aplicación', () => {
       .get('/registrar-resultado?ganador=O')
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.have.property('message', 'Contador de ganor O actualizado');
+        expect(res.body).to.have.property('message', 'Contador de ganador O actualizado');
         done();
       });
   });
