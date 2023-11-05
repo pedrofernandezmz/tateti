@@ -56,3 +56,10 @@ jobs:
       - name: Correr backend
         run: nohup node app.js &    # Ejecuta la aplicación en segundo plano
         working-directory: ./backend
+
+      - name: Correr frontend
+        run: |
+          cd ./frontend
+          npm install
+          npm start
+        working-directory: ./frontend
