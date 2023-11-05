@@ -44,10 +44,9 @@ jobs:
 
       - name: Correr Tests
         run: |
-          npx mocha
-          sleep 10
-          result=$(npx mocha | grep "5 passing")
-          if [ -n "$result" ]; then
+          timeout 10 npx mocha
+          result=$?
+          if [ $result -eq 0 ]; then
             echo "Tests pasaron exitosamente."
           else
             echo "Los tests no pasaron. Terminando el flujo de trabajo."
