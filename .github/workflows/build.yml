@@ -43,23 +43,15 @@ jobs:
         working-directory: ./backend
 
       - name: Correr Tests
-        run: nohup npx mocha &
-        working-directory: ./backend
-
-      - name: Verificar resultados de las pruebas
         run: |
-          sleep 10  # Espera un tiempo para que las pruebas se ejecuten
-
-          test_result=$(npx mocha)
-          echo "$test_result"
-          if [[ "$test_result" == *"5 passing"* ]]; then
-            echo "Las pruebas pasaron exitosamente."
-          else
-            echo "Las pruebas no pasaron como se esperaba. Terminando el Workflow."
+          nohup npx mocha > test_output.txt &  # Ejecutar pruebas en segundo plano y redirigir la salida a un archivo
+          sleep 10  # Esperar 10 segundos
+          if ! grep -q "5 passing" test_output.txt; then
+            echo "Las pruebas no pasaron. Deteniendo el flujo de trabajo."
             exit 1
           fi
         working-directory: ./backend
 
       - name: Correr backend
-        run: nohup node app.js &    # Ejecuta la aplicación en segundo plano
+        run: nohup node app.js &  # Ejecuta la aplicación en segundo plano
         working-directory: ./backend
