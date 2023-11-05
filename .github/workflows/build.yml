@@ -43,7 +43,7 @@ jobs:
         working-directory: ./backend
 
       - name: Start Node.js backend
-        run: npm start
+        run: node app.js
         working-directory: ./backend
 
       - name: Run Mocha tests
