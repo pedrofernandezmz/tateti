@@ -43,7 +43,7 @@ jobs:
         working-directory: ./backend
 
       - name: Start Node.js backend
-        run: node app.js
+        run: nohup node app.js &    # Ejecuta la aplicación en segundo plano
         working-directory: ./backend
 
       - name: Run Mocha tests
