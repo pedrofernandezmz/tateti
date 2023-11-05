@@ -48,14 +48,14 @@ jobs:
 
       - name: Verificar resultados de las pruebas
         run: |
-          sleep 60  # Espera un tiempo para que las pruebas se ejecuten
+          sleep 10  # Espera un tiempo para que las pruebas se ejecuten
 
-          test_result=$(tail -n 10 nohup.out)
+          test_result=$(npx mocha)
           echo "$test_result"
           if [[ "$test_result" == *"5 passing"* ]]; then
             echo "Las pruebas pasaron exitosamente."
           else
-            echo "Las pruebas no pasaron como se esperaba. Terminando el flujo de trabajo."
+            echo "Las pruebas no pasaron como se esperaba. Terminando el Workflow."
             exit 1
           fi
         working-directory: ./backend
