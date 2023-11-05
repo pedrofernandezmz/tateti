@@ -44,14 +44,17 @@ jobs:
 
       - name: Correr Tests
         run: |
-          nohup npx mocha > test_output.txt &  # Ejecutar pruebas en segundo plano y redirigir la salida a un archivo
-          sleep 10  # Esperar 10 segundos
-          if ! grep -q "5 passing" test_output.txt; then
-            echo "Las pruebas no pasaron. Deteniendo el flujo de trabajo."
+          npx mocha
+          sleep 10
+          result=$(npx mocha | grep "5 passing")
+          if [ -n "$result" ]; then
+            echo "Tests pasaron exitosamente."
+          else
+            echo "Los tests no pasaron. Terminando el flujo de trabajo."
             exit 1
           fi
         working-directory: ./backend
 
       - name: Correr backend
-        run: nohup node app.js &  # Ejecuta la aplicación en segundo plano
+        run: nohup node app.js &    # Ejecuta la aplicación en segundo plano
         working-directory: ./backend
