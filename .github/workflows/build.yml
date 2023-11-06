@@ -44,8 +44,8 @@ jobs:
 
       - name: Correr Tests
         run: |
-          (timeout 10 npx mocha || true)
-          if [ "$(timeout 10 npx mocha | grep -c '5 passing')" -eq 1 ]; then
+          (timeout 10 DB_HOST=localhost npx mocha || true)
+          if [ "$(timeout 10 DB_HOST=localhost npx mocha | grep -c '5 passing')" -eq 1 ]; then
             echo "Tests pasaron exitosamente."
           else
             echo "Los tests no pasaron. Terminando el flujo de trabajo."
@@ -63,24 +63,24 @@ jobs:
           nohup npm start &
         working-directory: ./frontend
 
-      - name: Build and Push Frontend Docker Image
-        run: |
-          docker build -t my-frontend ./frontend
-          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          docker tag my-frontend ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
-        working-directory: .
+      # - name: Build and Push Frontend Docker Image
+      #   run: |
+      #     docker build -t my-frontend ./frontend
+      #     echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      #     docker tag my-frontend ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
+      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
+      #   working-directory: .
 
-      - name: Build and Push Backend Docker Image
-        run: |
-          docker build -t my-backend ./backend
-          docker tag my-backend ${{ secrets.DOCKERHUB_USERNAME }}/my-backend:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-backend:latest
-        working-directory: .
+      # - name: Build and Push Backend Docker Image
+      #   run: |
+      #     docker build -t my-backend ./backend
+      #     docker tag my-backend ${{ secrets.DOCKERHUB_USERNAME }}/my-backend:latest
+      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-backend:latest
+      #   working-directory: .
 
-      - name: Build and Push Database Docker Image
-        run: |
-          docker build -t mydb ./database
-          docker tag mydb ${{ secrets.DOCKERHUB_USERNAME }}/mydb:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/mydb:latest
-        working-directory: .
+      # - name: Build and Push Database Docker Image
+      #   run: |
+      #     docker build -t mydb ./database
+      #     docker tag mydb ${{ secrets.DOCKERHUB_USERNAME }}/mydb:latest
+      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/mydb:latest
+      #   working-directory: .
