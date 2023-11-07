@@ -64,22 +64,11 @@ jobs:
           nohup npm start &
         working-directory: ./frontend
 
-      - name: Build and Push Images
+      - name: Build y Push Docker Compose
         run: |
+          docker-compose build
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-
-          # Build and tag all images with the same name and version
-          docker build -t myapp ./database
-          docker tag myapp ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
-
-          docker build -t myapp ./backend
-          docker tag myapp ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
-
-          docker build -t myapp ./frontend
-          docker tag myapp ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
-
-          # Push the combined image to Docker Hub
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
+          docker-compose push
         working-directory: .
 
       # - name: Build and Push Frontend Docker Image
