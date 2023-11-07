@@ -66,9 +66,9 @@ jobs:
 
       - name: Build y Push Docker Compose
         run: |
-          docker-compose build
+          docker-compose -f docker-compose.yml build
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          docker-compose push
+          docker-compose -f docker-compose.yml push
         working-directory: .
 
       # - name: Build and Push Frontend Docker Image
