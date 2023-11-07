@@ -1,0 +1,29 @@
+name: Docker Hub Publish
+
+on:
+  push:
+    branches:
+      - main  # Cambia esto a la rama que deseas monitorear
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker images
+      env:
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      run: |
+        # Iniciar Docker
+        docker-compose up -d
+        # Esperar un momento para asegurarse de que los servicios estén funcionando
+        sleep 30
+        echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+        # Construir imágenes a partir de los servicios en docker-compose.yml
+        docker-compose build
+        # Subir las imágenes a Docker Hub
+        docker-compose push
