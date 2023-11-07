@@ -64,24 +64,24 @@ jobs:
           nohup npm start &
         working-directory: ./frontend
 
-      # - name: Build and Push Frontend Docker Image
-      #   run: |
-      #     docker build -t my-frontend ./frontend
-      #     echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      #     docker tag my-frontend ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
-      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
-      #   working-directory: .
+      - name: Build and Push Frontend Docker Image
+        run: |
+          docker build -t my-frontend ./frontend
+          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          docker tag my-frontend ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
+        working-directory: .
 
-      # - name: Build and Push Backend Docker Image
-      #   run: |
-      #     docker build -t my-backend ./backend
-      #     docker tag my-backend ${{ secrets.DOCKERHUB_USERNAME }}/my-backend:latest
-      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-backend:latest
-      #   working-directory: .
+      - name: Build and Push Backend Docker Image
+        run: |
+          docker build -t my-backend ./backend
+          docker tag my-backend ${{ secrets.DOCKERHUB_USERNAME }}/my-backend:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-backend:latest
+        working-directory: .
 
-      # - name: Build and Push Database Docker Image
-      #   run: |
-      #     docker build -t mydb ./database
-      #     docker tag mydb ${{ secrets.DOCKERHUB_USERNAME }}/mydb:latest
-      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/mydb:latest
-      #   working-directory: .
+      - name: Build and Push Database Docker Image
+        run: |
+          docker build -t mydb ./database
+          docker tag mydb ${{ secrets.DOCKERHUB_USERNAME }}/mydb:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/mydb:latest
+        working-directory: .
