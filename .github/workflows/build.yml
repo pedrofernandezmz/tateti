@@ -64,18 +64,18 @@ jobs:
           nohup npm start &
         working-directory: ./frontend
 
-      - name: Build y Push Images
-        run: |
-          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          docker build -t myapp ./backend
-          docker tag myapp ${{ secrets.DOCKERHUB_USERNAME }}/myapp:backend
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:backend
+      # - name: Build y Push Images
+      #   run: |
+      #     echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      #     docker build -t myapp ./backend
+      #     docker tag myapp ${{ secrets.DOCKERHUB_USERNAME }}/myapp:backend
+      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:backend
 
-          docker build -t myapp ./frontend
-          docker tag myapp ${{ secrets.DOCKERHUB_USERNAME }}/myapp:frontend
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:frontend
+      #     docker build -t myapp ./frontend
+      #     docker tag myapp ${{ secrets.DOCKERHUB_USERNAME }}/myapp:frontend
+      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:frontend
 
-          docker build -t mydb ./database
-          docker tag mydb ${{ secrets.DOCKERHUB_USERNAME }}/myapp:database
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:database
-        working-directory: .
+      #     docker build -t mydb ./database
+      #     docker tag mydb ${{ secrets.DOCKERHUB_USERNAME }}/myapp:database
+      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:database
+      #   working-directory: .
