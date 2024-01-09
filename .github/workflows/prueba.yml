@@ -1,9 +1,40 @@
-name: Build and Publish Docker Images
+# name: Build and Publish Docker Images
+
+# on:
+#   push:
+#     branches:
+#       - main # Cambia esto al nombre de tu rama principal si es diferent
+
+# jobs:
+#   build-and-publish:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Build and push Docker images
+#         env:
+#           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+#           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+#         run: |
+#           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+#           cd backend # Cambia al directorio del backend
+#           docker build -t $DOCKERHUB_USERNAME/backend:latest .
+#           docker push $DOCKERHUB_USERNAME/backend:latest
+#           cd ../frontend # Cambia al directorio del frontend
+#           docker build -t $DOCKERHUB_USERNAME/frontend:latest .
+#           docker push $DOCKERHUB_USERNAME/frontend:latest
+#           cd ../database # Cambia al directorio de la base de datos
+#           docker build -t $DOCKERHUB_USERNAME/database:latest .
+#           docker push $DOCKERHUB_USERNAME/database:latest
+
+name: Build and Deploy Docker Images to Google Cloud
 
 on:
   push:
     branches:
-      - main # Cambia esto al nombre de tu rama principal si es diferent
+      - main
 
 jobs:
   build-and-publish:
@@ -19,12 +50,37 @@ jobs:
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-          cd backend # Cambia al directorio del backend
+          cd backend
           docker build -t $DOCKERHUB_USERNAME/backend:latest .
           docker push $DOCKERHUB_USERNAME/backend:latest
-          cd ../frontend # Cambia al directorio del frontend
+          cd ../frontend
           docker build -t $DOCKERHUB_USERNAME/frontend:latest .
           docker push $DOCKERHUB_USERNAME/frontend:latest
-          cd ../database # Cambia al directorio de la base de datos
+          cd ../database
           docker build -t $DOCKERHUB_USERNAME/database:latest .
           docker push $DOCKERHUB_USERNAME/database:latest
+
+      - name: Configure Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v0.4.0
+        with:
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
+          project_id: tateti-404421
+
+      - name: Deploy to Google Cloud Run (backend)
+        run: |
+          gcloud run deploy backend \
+            --image=$DOCKERHUB_USERNAME/backend:latest \
+            --platform=managed \
+            --region=southamerica-east1 \
+            --allow-unauthenticated
+
+      - name: Deploy to Google Cloud Run (frontend)
+        run: |
+          gcloud run deploy frontend \
+            --image=$DOCKERHUB_USERNAME/frontend:latest \
+            --platform=managed \
+            --region=southamerica-east1 \
+            --allow-unauthenticated
+
+      # Puedes añadir pasos similares para la base de datos si es necesario.
+
