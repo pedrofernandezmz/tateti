@@ -60,10 +60,12 @@ jobs:
           docker build -t $DOCKERHUB_USERNAME/database:latest .
           docker push $DOCKERHUB_USERNAME/database:latest
 
+      - name: Set up Google Cloud credentials
+        run: echo "${{ secrets.GCLOUD_AUTH }}" > /tmp/gcloud-key.json
       - name: Configure Google Cloud CLI
-        uses: google-github-actions/auth@main
+        uses: google-github-actions/auth@v2
         with:
-          service_account_key: ${{ secrets.GCLOUD_AUTH }}
+          credentials_json: /tmp/gcloud-key.json
           project_id: tateti-404421
 
       - name: Enable Google Cloud APIs
