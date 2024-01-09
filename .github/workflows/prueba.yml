@@ -60,24 +60,16 @@ jobs:
           docker build -t $DOCKERHUB_USERNAME/database:latest .
           docker push $DOCKERHUB_USERNAME/database:latest
 
-      - name: Set up Google Cloud credentials
-        run: echo "${{ secrets.GCLOUD_AUTH }}" > /tmp/gcloud-key.json
-
       - name: Configure Google Cloud CLI
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/setup-gcloud@v0.4.0
         with:
-          credentials_json: /tmp/gcloud-key.json
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: tateti-404421
-
-      - name: Enable Google Cloud APIs
-        run: |
-          gcloud services enable run.googleapis.com --project=tateti-404421
-          # Agrega cualquier otra API que puedas necesitar habilitar aquí
 
       - name: Deploy to Google Cloud Run (backend)
         run: |
           gcloud run deploy backend \
-            --image=${DOCKERHUB_USERNAME}/backend:latest \
+            --image=$DOCKERHUB_USERNAME/backend:latest \
             --platform=managed \
             --region=southamerica-east1 \
             --allow-unauthenticated
@@ -85,7 +77,9 @@ jobs:
       - name: Deploy to Google Cloud Run (frontend)
         run: |
           gcloud run deploy frontend \
-            --image=${DOCKERHUB_USERNAME}/frontend:latest \
+            --image=$DOCKERHUB_USERNAME/frontend:latest \
             --platform=managed \
             --region=southamerica-east1 \
             --allow-unauthenticated
+
+      # Puedes añadir pasos similares para la base de datos si es necesario.
