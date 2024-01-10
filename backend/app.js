@@ -122,27 +122,19 @@
 // });
 
 
+import express from 'express';
 import axios from 'axios';
 
-const apiUrl = 'https://pokeapi.co/api/v2/pokemon/ditto';
+const app = express();
 
-axios.get(apiUrl)
-  .then(response => {
-    // Manejar los datos de la respuesta
-    const pokemonData = response.data;
-    
-    // Mostrar resultados
-    console.log('Nombre del Pokémon:', pokemonData.name);
-    console.log('ID del Pokémon:', pokemonData.id);
-    console.log('Tipos:', pokemonData.types.map(type => type.type.name).join(', '));
-    console.log('Habilidades:', pokemonData.abilities.map(ability => ability.ability.name).join(', '));
-    console.log('Altura:', pokemonData.height);
-    console.log('Peso:', pokemonData.weight);
-  })
-  .catch(error => {
-    // Manejar errores
-    console.error('Error al obtener datos de la API:', error.message);
-  });
+app.get('/', async (req, res) => {
+  const response = await axios.get('https://pokeapi.co/api/v2/pokemon/ditto');
+  const ditto = response.data;
+
+  res.json(ditto);
+});
+
+app.listen(3000, () => console.log('Servidor iniciado'));
 
 
 
