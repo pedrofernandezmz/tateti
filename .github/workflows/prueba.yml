@@ -66,15 +66,15 @@ jobs:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: tateti-404421
 
-      - name: Deploy to Google Cloud Run (backend)
+      - name: Deploy Database
         run: |
-          gcloud run deploy backend \
-            --image=docker.io/piterfmz/backend:latest \
+          gcloud run deploy database \
+            --image=docker.io/piterfmz/database:latest \
             --platform=managed \
             --region=southamerica-east1 \
             --allow-unauthenticated
 
-      - name: Deploy to Google Cloud Run (frontend)
+      - name: Deploy Frontend
         run: |
           gcloud run deploy frontend \
             --image=docker.io/piterfmz/frontend:latest \
@@ -82,4 +82,10 @@ jobs:
             --region=southamerica-east1 \
             --allow-unauthenticated
 
-      # Puedes añadir pasos similares para la base de datos si es necesario.
+      - name: Deploy Backend
+        run: |
+          gcloud run deploy backend \
+            --image=docker.io/piterfmz/backend:latest \
+            --platform=managed \
+            --region=southamerica-east1 \
+            --allow-unauthenticated
