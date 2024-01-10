@@ -66,29 +66,18 @@ jobs:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: tateti-404421
 
-      - name: Import Database to Cloud SQL
+      - name: Deploy Frontend
         run: |
-          # Set up Cloud SQL connection parameters
-          DB_HOST=tateti-404421:southamerica-east1:tateti-555
-          DB_USER=Pedro123
-          DB_PASSWORD=Cat123
-          DB_NAME=tateti-555
+          gcloud run deploy frontend \
+            --image=docker.io/piterfmz/frontend:latest \
+            --platform=managed \
+            --region=southamerica-east1 \
+            --allow-unauthenticated
 
-          # Use mysql client to import data to Cloud SQL
-          cat database/init.sql | mysql -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME
-
-      # - name: Deploy Frontend
-      #   run: |
-      #     gcloud run deploy frontend \
-      #       --image=docker.io/piterfmz/frontend:latest \
-      #       --platform=managed \
-      #       --region=southamerica-east1 \
-      #       --allow-unauthenticated
-
-      # - name: Deploy Backend
-      #   run: |
-      #     gcloud run deploy backend \
-      #       --image=docker.io/piterfmz/backend:latest \
-      #       --platform=managed \
-      #       --region=southamerica-east1 \
-      #       --allow-unauthenticated
+      - name: Deploy Backend
+        run: |
+          gcloud run deploy backend \
+            --image=docker.io/piterfmz/backend:latest \
+            --platform=managed \
+            --region=southamerica-east1 \
+            --allow-unauthenticated
