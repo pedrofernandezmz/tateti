@@ -77,49 +77,76 @@
 
 
 
-import express from 'express';
-import mysql from 'mysql';
+// import express from 'express';
+// import mysql from 'mysql';
 
-const app = express();
-const port = 3000;
+// const app = express();
+// const port = 3000;
 
-// Configuración de la base de datos
-const dbConfig = {
-  host: '10.0.0.1',
-  user: 'root',
-  password: 'Cat123',
-  database: 'mydb',
-  connectTimeout: 30000, // Aumenta el tiempo de espera (en milisegundos)
-};
+// // Configuración de la base de datos
+// const dbConfig = {
+//   host: '10.0.0.1',
+//   user: 'root',
+//   password: 'Cat123',
+//   database: 'mydb',
+//   connectTimeout: 30000, // Aumenta el tiempo de espera (en milisegundos)
+// };
 
-// Crear una conexión a la base de datos
-const connection = mysql.createConnection(dbConfig);
+// // Crear una conexión a la base de datos
+// const connection = mysql.createConnection(dbConfig);
 
-// Conectar a la base de datos
-connection.connect((err) => {
-  if (err) {
-    console.error('Error de conexión a la base de datos:', err);
-  } else {
-    console.log('Conexión a la base de datos exitosa');
-  }
-});
+// // Conectar a la base de datos
+// connection.connect((err) => {
+//   if (err) {
+//     console.error('Error de conexión a la base de datos:', err);
+//   } else {
+//     console.log('Conexión a la base de datos exitosa');
+//   }
+// });
 
-// Ruta para obtener datos de la base de datos
-app.get('/', (req, res) => {
-  connection.query('SELECT * FROM contador', (err, results) => {
-    if (err) {
-      console.error('Error al ejecutar la consulta:', err);
-      res.status(500).send('Error en el servidor');
-    } else {
-      res.json(results);
-    }
+// // Ruta para obtener datos de la base de datos
+// app.get('/', (req, res) => {
+//   connection.query('SELECT * FROM contador', (err, results) => {
+//     if (err) {
+//       console.error('Error al ejecutar la consulta:', err);
+//       res.status(500).send('Error en el servidor');
+//     } else {
+//       res.json(results);
+//     }
+//   });
+// });
+
+// // Iniciar el servidor
+// app.listen(port, () => {
+//   console.log(`Servidor iniciado en http://localhost:${port}`);
+// });
+
+
+import axios from 'axios';
+
+const apiUrl = 'https://pokeapi.co/api/v2/pokemon/ditto';
+
+axios.get(apiUrl)
+  .then(response => {
+    // Manejar los datos de la respuesta
+    const pokemonData = response.data;
+    
+    // Mostrar resultados
+    console.log('Nombre del Pokémon:', pokemonData.name);
+    console.log('ID del Pokémon:', pokemonData.id);
+    console.log('Tipos:', pokemonData.types.map(type => type.type.name).join(', '));
+    console.log('Habilidades:', pokemonData.abilities.map(ability => ability.ability.name).join(', '));
+    console.log('Altura:', pokemonData.height);
+    console.log('Peso:', pokemonData.weight);
+  })
+  .catch(error => {
+    // Manejar errores
+    console.error('Error al obtener datos de la API:', error.message);
   });
-});
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor iniciado en http://localhost:${port}`);
-});
+
+
+
 
 // import express from 'express';
 // import mysql from 'mysql2/promise';
