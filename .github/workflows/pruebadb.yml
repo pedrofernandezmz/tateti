@@ -1,0 +1,20 @@
+name: Import Database to Cloud SQL
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  import-db:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Import data to Cloud SQL
+        run: |
+          # Use mysql client to import data to Cloud SQL
+          # cat database/init.sql | mysql -h"tateti-404421:southamerica-east1:tateti-555" -u"Pedro123" -p"Cat123" "tateti-555"
+          cat database/init.sql | mysql --host=35.198.45.98 --user=root --password=Cat123

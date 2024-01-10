@@ -1,0 +1,94 @@
+# name: Build and Publish Docker Images
+
+# on:
+#   push:
+#     branches:
+#       - main # Cambia esto al nombre de tu rama principal si es diferent
+
+# jobs:
+#   build-and-publish:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Build and push Docker images
+#         env:
+#           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+#           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+#         run: |
+#           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+#           cd backend # Cambia al directorio del backend
+#           docker build -t $DOCKERHUB_USERNAME/backend:latest .
+#           docker push $DOCKERHUB_USERNAME/backend:latest
+#           cd ../frontend # Cambia al directorio del frontend
+#           docker build -t $DOCKERHUB_USERNAME/frontend:latest .
+#           docker push $DOCKERHUB_USERNAME/frontend:latest
+#           cd ../database # Cambia al directorio de la base de datos
+#           docker build -t $DOCKERHUB_USERNAME/database:latest .
+#           docker push $DOCKERHUB_USERNAME/database:latest
+
+name: Build and Deploy Docker Images to Google Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and push Docker images
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+          cd backend
+          docker build -t $DOCKERHUB_USERNAME/backend:latest .
+          docker push $DOCKERHUB_USERNAME/backend:latest
+          cd ../frontend
+          docker build -t $DOCKERHUB_USERNAME/frontend:latest .
+          docker push $DOCKERHUB_USERNAME/frontend:latest
+          cd ../database
+          docker build -t $DOCKERHUB_USERNAME/database:latest .
+          docker push $DOCKERHUB_USERNAME/database:latest
+
+      - name: Configure Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v0.4.0
+        with:
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
+          project_id: tateti-404421
+
+      - name: Import Database to Cloud SQL
+        run: |
+          # Set up Cloud SQL connection parameters
+          DB_HOST=tateti-404421:southamerica-east1:tateti-555
+          DB_USER=Pedro123
+          DB_PASSWORD=Cat123
+          DB_NAME=tateti-555
+
+          # Use mysql client to import data to Cloud SQL
+          cat database/init.sql | mysql -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME
+
+      # - name: Deploy Frontend
+      #   run: |
+      #     gcloud run deploy frontend \
+      #       --image=docker.io/piterfmz/frontend:latest \
+      #       --platform=managed \
+      #       --region=southamerica-east1 \
+      #       --allow-unauthenticated
+
+      # - name: Deploy Backend
+      #   run: |
+      #     gcloud run deploy backend \
+      #       --image=docker.io/piterfmz/backend:latest \
+      #       --platform=managed \
+      #       --region=southamerica-east1 \
+      #       --allow-unauthenticated
