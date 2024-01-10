@@ -1,0 +1,26 @@
+name: Import Database to Cloud SQL
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  import-db:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Cloud SQL connection parameters
+        run: |
+          echo "DB_HOST=tateti-404421:southamerica-east1:tateti-555" >> $GITHUB_ENV
+          echo "DB_USER=Pedro123" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_NAME=tateti-555" >> $GITHUB_ENV
+
+      - name: Import data to Cloud SQL
+        run: |
+          # Use mysql client to import data to Cloud SQL
+          cat database/init.sql | mysql -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME
