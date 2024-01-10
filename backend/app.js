@@ -85,7 +85,7 @@ const port = 3000;
 
 // Configuración de la base de datos
 const dbConfig = {
-  host: '35.198.45.98',
+  host: '10.0.0.1',
   user: 'root',
   password: 'Cat123',
   database: 'mydb',
