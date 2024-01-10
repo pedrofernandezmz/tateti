@@ -134,7 +134,7 @@ app.get('/', async (req, res) => {
   res.json(ditto);
 });
 
-app.listen(3000, () => console.log('Servidor iniciado'));
+app.listen(8080, () => console.log('Servidor iniciado'));
 
 
 
