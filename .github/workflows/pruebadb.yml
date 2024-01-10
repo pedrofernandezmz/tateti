@@ -17,4 +17,4 @@ jobs:
         run: |
           # Use mysql client to import data to Cloud SQL
           # cat database/init.sql | mysql -h"tateti-404421:southamerica-east1:tateti-555" -u"Pedro123" -p"Cat123" "tateti-555"
-          cat database/init.sql | mysql --host=35.198.45.98 --user=Pedro123 --password=Cat123
+          cat database/init.sql | mysql --host=35.198.45.98 --user=root --password=Cat123
