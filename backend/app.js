@@ -103,7 +103,7 @@ app.get('/obtener-datos-pokemon', async (req, res) => {
     res.json(pokemonData);
   } catch (error) {
     console.error('Error al obtener datos de la API de Pokémon:', error.message);
-    res.status(500).send('Error en el servidor');
+    res.status(500).send('Error en el servidorpokemon');
   }
 });
 
