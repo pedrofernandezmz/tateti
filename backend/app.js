@@ -77,43 +77,101 @@
 
 
 
+// import express from 'express';
+// import axios from 'axios';
+// import cors from 'cors';
+
+// const app = express();
+// app.use(cors());
+// const port = 8080;
+
+// // Ruta para obtener datos de la API de Pokémon
+// app.get('/obtener-datos-pokemon', async (req, res) => {
+//   try {
+//     console.log('Recibida solicitud para obtener datos de Pokémon');
+
+//     // Hacer la solicitud a la API de Pokémon
+//     const response = await axios.get('https://pokeapi.co/api/v2/pokemon/ditto');
+
+//     // Extraer los datos relevantes
+//     const pokemonData = {
+//       name: response.data.name,
+//       id: response.data.id,
+//       types: response.data.types.map(type => type.type.name),
+//       abilities: response.data.abilities.map(ability => ability.ability.name),
+//       height: response.data.height,
+//       weight: response.data.weight,
+//     };
+
+//     // Configurar encabezados CORS
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+//     // Enviar los datos como respuesta
+//     res.json(pokemonData);
+//     console.log('Datos de Pokémon enviados con éxito');
+//   } catch (error) {
+//     console.error('Error al obtener datos de la API de Pokémon:', error.message);
+//     res.status(500).send('Error en el servidorpokemon');
+//   }
+// });
+
+// // Iniciar el servidor
+// app.listen(port, () => {
+//   console.log(`Servidor iniciado en http://localhost:${port}`);
+// });
+
+
 import express from 'express';
-import axios from 'axios';
-import cors from 'cors';
+import mysql from 'promise-mysql';
 
 const app = express();
-app.use(cors());
 const port = 8080;
 
-// Ruta para obtener datos de la API de Pokémon
-app.get('/obtener-datos-pokemon', async (req, res) => {
+// Configuración de la base de datos
+const dbConfig = {
+  host: '10.117.112.3',
+  user: 'root',
+  password: 'Cat123',
+  database: 'mydb',
+};
+
+// Función para crear un pool de conexiones
+const createTcpPool = async config => {
+  return mysql.createPool({
+    connectionLimit: 5,
+    connectTimeout: 10000,
+    acquireTimeout: 10000,
+    waitForConnections: true,
+    queueLimit: 0,
+    ...config,
+  });
+};
+
+// Ruta para obtener datos de la tabla "contador" en la base de datos
+app.get('/obtener-datos-contador', async (req, res) => {
   try {
-    console.log('Recibida solicitud para obtener datos de Pokémon');
+    console.log('Recibida solicitud para obtener datos de la tabla "contador"');
 
-    // Hacer la solicitud a la API de Pokémon
-    const response = await axios.get('https://pokeapi.co/api/v2/pokemon/ditto');
+    // Crear un pool de conexiones a la base de datos
+    const pool = await createTcpPool(dbConfig);
 
-    // Extraer los datos relevantes
-    const pokemonData = {
-      name: response.data.name,
-      id: response.data.id,
-      types: response.data.types.map(type => type.type.name),
-      abilities: response.data.abilities.map(ability => ability.ability.name),
-      height: response.data.height,
-      weight: response.data.weight,
-    };
+    // Obtener una conexión del pool
+    const connection = await pool.getConnection();
 
-    // Configurar encabezados CORS
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    // Ejecutar una consulta en la base de datos
+    const rows = await connection.query('SELECT * FROM contador');
+
+    // Liberar la conexión de nuevo al pool
+    connection.release();
 
     // Enviar los datos como respuesta
-    res.json(pokemonData);
-    console.log('Datos de Pokémon enviados con éxito');
+    res.json(rows);
+    console.log('Datos de la tabla "contador" enviados con éxito');
   } catch (error) {
-    console.error('Error al obtener datos de la API de Pokémon:', error.message);
-    res.status(500).send('Error en el servidorpokemon');
+    console.error('Error al obtener datos de la tabla "contador":', error.message);
+    res.status(500).send('Error en el servidor');
   }
 });
 
@@ -121,7 +179,6 @@ app.get('/obtener-datos-pokemon', async (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor iniciado en http://localhost:${port}`);
 });
-
 
 
 
