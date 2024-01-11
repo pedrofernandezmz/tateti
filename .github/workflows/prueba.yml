@@ -79,7 +79,7 @@ jobs:
           gcloud run deploy backend \
             --image=docker.io/piterfmz/backend:latest \
             --add-cloudsql-instances tateti-404421:us-central1:prueba \
+            --update-env-vars INSTANCE_CONNECTION_NAME=tateti-404421:us-central1:prueba,DB_PASS=pedro123,DB_USER=root,DB_NAME=perros \
             --platform=managed \
             --region=us-central1 \
             --allow-unauthenticated
-            --project=tateti-404421
