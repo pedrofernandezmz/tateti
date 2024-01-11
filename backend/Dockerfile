@@ -10,6 +10,8 @@ COPY package*.json ./
 # Instalar las dependencias del proyecto
 RUN npm install
 
+RUN npm install @google-cloud/cloud-sql-connector
+
 # Descargar Cloud SQL Proxy y dar permisos de ejecución
 RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy && \
     chmod +x cloud_sql_proxy
@@ -21,5 +23,5 @@ COPY . .
 EXPOSE 8080
 
 # Comando para iniciar la aplicación junto con Cloud SQL Proxy
-CMD [ "./cloud_sql_proxy", "-instances=tateti-404421:southamerica-east1:tateti-555=tcp:3306", "node", "app.js" ]
+CMD [ "./cloud_sql_proxy", "-instances=tu_proyecto:tu_region:tu_instancia=tcp:3306", "node", "app.js" ]
 
