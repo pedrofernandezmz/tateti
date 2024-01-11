@@ -78,6 +78,8 @@ jobs:
         run: |
           gcloud run deploy backend \
             --image=docker.io/piterfmz/backend:latest \
+            --add-cloudsql-instances tateti-404421:us-central1:prueba \
             --platform=managed \
-            --region=southamerica-east1 \
+            --region=us-central1 \
             --allow-unauthenticated
+            --project=tateti-404421
