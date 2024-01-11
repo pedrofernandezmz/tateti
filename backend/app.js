@@ -123,64 +123,6 @@
 // });
 
 
-import express from 'express';
-import mysql from 'promise-mysql';
-
-const app = express();
-const port = 8080;
-
-// Configuración de la base de datos
-const dbConfig = {
-  host: '127.0.0.1',
-  user: 'root',
-  password: 'Cat123',
-  database: 'mydb',
-};
-
-// Función para crear un pool de conexiones
-const createTcpPool = async config => {
-  return mysql.createPool({
-    connectionLimit: 5,
-    connectTimeout: 10000,
-    acquireTimeout: 10000,
-    waitForConnections: true,
-    queueLimit: 0,
-    ...config,
-  });
-};
-
-// Ruta para obtener datos de la tabla "contador" en la base de datos
-app.get('/obtener-datos-contador', async (req, res) => {
-  try {
-    console.log('Recibida solicitud para obtener datos de la tabla "contador"');
-
-    // Crear un pool de conexiones a la base de datos
-    const pool = await createTcpPool(dbConfig);
-
-    // Obtener una conexión del pool
-    const connection = await pool.getConnection();
-
-    // Ejecutar una consulta en la base de datos
-    const rows = await connection.query('SELECT * FROM contador');
-
-    // Liberar la conexión de nuevo al pool
-    connection.release();
-
-    // Enviar los datos como respuesta
-    res.json(rows);
-    console.log('Datos de la tabla "contador" enviados con éxito');
-  } catch (error) {
-    console.error('Error al obtener datos de la tabla "contador":', error.message);
-    res.status(500).send('Error en el servidor');
-  }
-});
-
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor iniciado en http://localhost:${port}`);
-});
-
-
 
 
 // import express from 'express';
@@ -274,3 +216,37 @@ app.listen(port, () => {
 // });
 
 // export default app;
+
+
+const express = require("express");
+const mysql = require("mysql");
+const app = express();
+
+app.use(express.json());
+const port = 8080;
+app.listen(port, () => {
+console.log(`BarkBark Rest API listening on port ${port}`);
+});
+
+app.get("/", async (req, res) => {
+res.json({ status: "Bark bark! Ready to roll!" });
+});
+
+app.get("/razas", async (req, res) => {
+  const query = 'SELECT * FROM razas';
+  pool.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener razas de perros:', err);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+const pool = mysql.createPool({
+  user: `root`,
+  password: `pedro123`,
+  database: `perros`,
+  socketPath: `/cloudsql/tateti-404421:us-central1:prueba`,
+ });
