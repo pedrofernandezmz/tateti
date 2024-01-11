@@ -123,15 +123,11 @@
 
 
 import express from 'express';
-import axios from 'axios';
 
 const app = express();
 
-app.get('/', async (req, res) => {
-  const response = await axios.get('https://pokeapi.co/api/v2/pokemon/ditto');
-  const ditto = response.data;
-
-  res.json(ditto);
+app.get('/', (req, res) => {
+  res.send('Hola');
 });
 
 app.listen(8080, () => console.log('Servidor iniciado'));
