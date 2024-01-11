@@ -78,50 +78,26 @@
 
 
 import express from 'express';
-import axios from 'axios';
-import cors from 'cors';
 
 const app = express();
-app.use(cors());
 const port = process.env.PORT || 8080;
 
-// Ruta para obtener datos de la API de Pokémon
-app.get('/obtener-datos-pokemon', async (req, res) => {
-  try {
-    console.log('Recibida solicitud para obtener datos de Pokémon');
+app.get('/mostrar-palabra/:palabra', (req, res) => {
+  const palabra = req.params.palabra;
 
-    // Hacer la solicitud a la API de Pokémon
-    const response = await axios.get('https://pokeapi.co/api/v2/pokemon/ditto');
+  // Configurar encabezados CORS (permitir solicitudes desde cualquier origen)
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // Extraer los datos relevantes
-    const pokemonData = {
-      name: response.data.name,
-      id: response.data.id,
-      types: response.data.types.map(type => type.type.name),
-      abilities: response.data.abilities.map(ability => ability.ability.name),
-      height: response.data.height,
-      weight: response.data.weight,
-    };
-
-    // Configurar encabezados CORS
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    // Enviar los datos como respuesta
-    res.json(pokemonData);
-    console.log('Datos de Pokémon enviados con éxito');
-  } catch (error) {
-    console.error('Error al obtener datos de la API de Pokémon:', error.message);
-    res.status(500).send('Error en el servidorpokemon');
-  }
+  // Mostrar la palabra en pantalla
+  res.send(`La palabra recibida es: ${palabra}`);
 });
 
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor iniciado en http://localhost:${port}`);
 });
-
 
 
 
