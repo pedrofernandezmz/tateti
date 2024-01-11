@@ -77,60 +77,60 @@
 
 
 
-// import express from 'express';
-// import mysql from 'mysql';
-
-// const app = express();
-// const port = 3000;
-
-// // Configuración de la base de datos
-// const dbConfig = {
-//   host: '10.0.0.1',
-//   user: 'root',
-//   password: 'Cat123',
-//   database: 'mydb',
-//   connectTimeout: 30000, // Aumenta el tiempo de espera (en milisegundos)
-// };
-
-// // Crear una conexión a la base de datos
-// const connection = mysql.createConnection(dbConfig);
-
-// // Conectar a la base de datos
-// connection.connect((err) => {
-//   if (err) {
-//     console.error('Error de conexión a la base de datos:', err);
-//   } else {
-//     console.log('Conexión a la base de datos exitosa');
-//   }
-// });
-
-// // Ruta para obtener datos de la base de datos
-// app.get('/', (req, res) => {
-//   connection.query('SELECT * FROM contador', (err, results) => {
-//     if (err) {
-//       console.error('Error al ejecutar la consulta:', err);
-//       res.status(500).send('Error en el servidor');
-//     } else {
-//       res.json(results);
-//     }
-//   });
-// });
-
-// // Iniciar el servidor
-// app.listen(port, () => {
-//   console.log(`Servidor iniciado en http://localhost:${port}`);
-// });
-
-
 import express from 'express';
+import mysql from 'mysql';
 
 const app = express();
+const port = 8080;
 
-app.get('/', (req, res) => {
-  res.send('Hola');
+// Configuración de la base de datos
+const dbConfig = {
+  host: '10.0.0.1',
+  user: 'root',
+  password: 'Cat123',
+  database: 'mydb',
+  connectTimeout: 30000, // Aumenta el tiempo de espera (en milisegundos)
+};
+
+// Crear una conexión a la base de datos
+const connection = mysql.createConnection(dbConfig);
+
+// Conectar a la base de datos
+connection.connect((err) => {
+  if (err) {
+    console.error('Error de conexión a la base de datos:', err);
+  } else {
+    console.log('Conexión a la base de datos exitosa');
+  }
 });
 
-app.listen(8080, () => console.log('Servidor iniciado'));
+// Ruta para obtener datos de la base de datos
+app.get('/', (req, res) => {
+  connection.query('SELECT * FROM contador', (err, results) => {
+    if (err) {
+      console.error('Error al ejecutar la consulta:', err);
+      res.status(500).send('Error en el servidor');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Iniciar el servidor
+app.listen(port, () => {
+  console.log(`Servidor iniciado en http://localhost:${port}`);
+});
+
+
+// import express from 'express';
+
+// const app = express();
+
+// app.get('/', (req, res) => {
+//   res.send('Hola');
+// });
+
+// app.listen(8080, () => console.log('Servidor iniciado'));
 
 
 
