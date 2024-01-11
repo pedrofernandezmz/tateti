@@ -131,7 +131,7 @@ const port = 8080;
 
 // Configuración de la base de datos
 const dbConfig = {
-  host: '10.117.112.3',
+  host: '35.198.45.98',
   user: 'root',
   password: 'Cat123',
   database: 'mydb',
