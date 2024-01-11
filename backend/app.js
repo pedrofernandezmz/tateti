@@ -78,48 +78,40 @@
 
 
 import express from 'express';
-import mysql from 'mysql';
+import axios from 'axios';
 
 const app = express();
 const port = 8080;
 
-// Configuración de la base de datos
-const dbConfig = {
-  host: '10.0.0.1',
-  user: 'root',
-  password: 'Cat123',
-  database: 'mydb',
-  connectTimeout: 30000, // Aumenta el tiempo de espera (en milisegundos)
-};
+// Ruta para obtener datos de la API de Pokémon
+app.get('/obtener-datos-pokemon', async (req, res) => {
+  try {
+    // Hacer la solicitud a la API de Pokémon
+    const response = await axios.get('https://pokeapi.co/api/v2/pokemon/ditto');
 
-// Crear una conexión a la base de datos
-const connection = mysql.createConnection(dbConfig);
+    // Extraer los datos relevantes
+    const pokemonData = {
+      name: response.data.name,
+      id: response.data.id,
+      types: response.data.types.map(type => type.type.name),
+      abilities: response.data.abilities.map(ability => ability.ability.name),
+      height: response.data.height,
+      weight: response.data.weight,
+    };
 
-// Conectar a la base de datos
-connection.connect((err) => {
-  if (err) {
-    console.error('Error de conexión a la base de datos:', err);
-  } else {
-    console.log('Conexión a la base de datos exitosa');
+    // Enviar los datos como respuesta
+    res.json(pokemonData);
+  } catch (error) {
+    console.error('Error al obtener datos de la API de Pokémon:', error.message);
+    res.status(500).send('Error en el servidor');
   }
-});
-
-// Ruta para obtener datos de la base de datos
-app.get('/', (req, res) => {
-  connection.query('SELECT * FROM contador', (err, results) => {
-    if (err) {
-      console.error('Error al ejecutar la consulta:', err);
-      res.status(500).send('Error en el servidor');
-    } else {
-      res.json(results);
-    }
-  });
 });
 
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor iniciado en http://localhost:${port}`);
 });
+
 
 
 
