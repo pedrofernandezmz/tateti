@@ -233,7 +233,7 @@ res.json({ status: "Bark bark! Ready to roll!" });
 });
 
 app.get("/razas", async (req, res) => {
-  const query = 'SELECT * FROM razas';
+  const query = 'SELECT * FROM contador';
   pool.query(query, (err, results) => {
     if (err) {
       console.error('Error al obtener razas de perros:', err);
