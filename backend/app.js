@@ -134,11 +134,11 @@ console.log(`BarkBark Rest API listening on port ${port}`);
 });
 
 app.get("/", async (req, res) => {
-res.json({ status: "Bark bark! Ready to r222222oll!" });
+res.json({ status: "Bark bark! Ready to r2333332oll!" });
 });
 
 app.get("/razas", async (req, res) => {
-  const query = 'SELECT * FROM contador';
+  const query = 'SELECT * FROM razas';
   pool.query(query, (err, results) => {
     if (err) {
       console.error('Error al obtener razas de perros:', err);
@@ -148,23 +148,6 @@ app.get("/razas", async (req, res) => {
     }
   });
 });
-
-// Ruta para insertar una nueva raza
-app.post("/insertar-raza", async (req, res) => {
-  const { nombre, color } = req.body;
-
-  try {
-    const insertQuery = 'INSERT INTO razas (nombre, color) VALUES (?, ?)';
-    await pool.query(insertQuery, [nombre, color]);
-
-    console.log(`Raza ${nombre} insertada correctamente`);
-    res.status(200).json({ message: `Raza ${nombre} insertada correctamente` });
-  } catch (err) {
-    console.error('Error al insertar raza:', err);
-    res.status(500).json({ error: 'Error interno del servidor al insertar raza' });
-  }
-});
-
 
 app.get("/contador", async (req, res) => {
   const query = 'SELECT * FROM contador';
@@ -176,24 +159,6 @@ app.get("/contador", async (req, res) => {
       res.json(results);
     }
   });
-});
-
-// Ruta para obtener los resultados actuales
-app.get("/obtener-resultados", async (req, res) => {
-  try {
-    const [result] = await pool.query('SELECT ganador_X, ganador_O, empate FROM contador');
-    const row = result[0];
-    const resultados = {
-      ganador_X: row.ganador_X,
-      ganador_O: row.ganador_O,
-      empate: row.empate,
-    };
-    console.log('Mostrar Resultado 2222');
-    res.status(200).json(resultados);
-  } catch (err) {
-    console.error('Error al obtener resultados 222222:', err);
-    res.status(500).json({ error: 'Error al obtener resultado 222222' });
-  }
 });
 
 // Ruta para registrar un resultado de juego
@@ -217,6 +182,18 @@ app.get('/registrar-resultado', async (req, res) => {
   } catch (err) {
     console.error('Error al actualizar el contador:', err);
     res.status(500).json({ error: 'Error al actualizar el contador' });
+  }
+});
+
+// Ruta para reiniciar los resultados (poner todo a 0)
+app.post('/reiniciar-resultados', async (req, res) => {
+  try {
+    await pool.query('UPDATE contador SET ganador_X = 0, ganador_O = 0, empate = 0');
+    console.log('Resultados reiniciados');
+    res.status(200).json({ message: 'Resultados reiniciados' });
+  } catch (err) {
+    console.error('Error al reiniciar los resultados:', err);
+    res.status(500).json({ error: 'Error al reiniciar los resultados' });
   }
 });
 
