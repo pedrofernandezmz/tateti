@@ -134,7 +134,7 @@ console.log(`BarkBark Rest API listening on port ${port}`);
 });
 
 app.get("/", async (req, res) => {
-res.json({ status: "Bark bark! Ready to r22222222oll!" });
+res.json({ status: "Bark bark! Ready to r222222oll!" });
 });
 
 app.get("/razas", async (req, res) => {
