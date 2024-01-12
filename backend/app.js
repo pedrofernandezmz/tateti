@@ -22,6 +22,10 @@ const pool = createPool({
 //   port: 3306
 // });
 
+app.get("/", async (req, res) => {
+res.json({ status: "Backend Tateti Funcionando! Version 2.0" });
+});
+
 // Ruta para registrar un resultado de juego
 app.get('/registrar-resultado', async (req, res) => {
   const { ganador } = req.query;
