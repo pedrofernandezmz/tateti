@@ -244,6 +244,23 @@ app.get("/razas", async (req, res) => {
   });
 });
 
+app.get("/obtener-resultados", async (req, res) => {
+  try {
+    const [result] = await pool.query('SELECT ganador_X, ganador_O, empate FROM contador');
+    const row = result[0];
+    const resultados = {
+      ganador_X: row.ganador_X,
+      ganador_O: row.ganador_O,
+      empate: row.empate,
+    };
+    console.log('Mostrar Resultados');
+    res.status(200).json(resultados);
+  } catch (err) {
+    console.error('Error al obtener resultados:', err);
+    res.status(500).json({ error: 'Error al obtener resultados' });
+  }
+});
+
 const pool = mysql.createPool({
   user: `root`,
   password: `pedro123`,
