@@ -5,6 +5,10 @@ on:
     workflows: ["Tests Unitarios"]
     types:
       - completed
+    branches:
+      - main
+    types:
+      - success
 
 jobs:
   build-and-publish:
