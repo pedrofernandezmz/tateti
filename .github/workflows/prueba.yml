@@ -74,7 +74,7 @@ jobs:
       #       --region=southamerica-east1 \
       #       --allow-unauthenticated
 
-      - name: Deploy Backend
+      - name: Deploy Backendd
         run: |
           gcloud run deploy backend \
             --image=docker.io/piterfmz/backend:latest \
