@@ -5,7 +5,7 @@ import axios from 'axios'; // Importa Axios
 const PieChart = ({ xganadas, oganadas, empates }) => {
   // Función para reiniciar resultados y recargar la página
   const reiniciarYRecargar = () => {
-    axios.post('http://localhost:8080/reiniciar-resultados')
+    axios.post('https://backend-g4uf37rhhq-rj.a.run.app/reiniciar-resultados')
       .then(() => {
         // Recarga la página
         window.location.reload();
@@ -29,7 +29,7 @@ const PieChart = ({ xganadas, oganadas, empates }) => {
     return (
       <div style={divStyle}>
         <p>
-          Para jugar al Ta-te-ti, sigue estos pasos:
+          111111111111----Para jugar al Ta-te-ti, sigue estos pasos:
           <ol>
             <li>Elige un jugador para ser "X" y otro para ser "O".</li>
             <li>El jugador "X" comienza y coloca su ficha en un espacio vacío del tablero.</li>

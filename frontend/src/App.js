@@ -36,14 +36,34 @@ const Board = () => {
     const [xganadas, setXganadas] = useState(0)
     const [oganadas, setOganadas] = useState(0)
     const [empates, setempates] = useState(0)
+    // useEffect(() => {
+    //     // Realiza una solicitud a la API para obtener los resultados
+    //     axios.get('http://localhost:8080/obtener-resultados')
+    //         .then(response => {
+    //             // Actualiza los estados con los valores de la respuesta
+    //             setXganadas(response.data.ganador_X);
+    //             setOganadas(response.data.ganador_O);
+    //             setempates(response.data.empate);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error al obtener los datos de la API:', error);
+    //         });
+    // }, []);
+
     useEffect(() => {
         // Realiza una solicitud a la API para obtener los resultados
-        axios.get('http://localhost:8080/obtener-resultados')
+        axios.get('https://backend-g4uf37rhhq-rj.a.run.app/contador')
             .then(response => {
-                // Actualiza los estados con los valores de la respuesta
-                setXganadas(response.data.ganador_X);
-                setOganadas(response.data.ganador_O);
-                setempates(response.data.empate);
+                // Verifica si la respuesta es un array y tiene al menos un elemento
+                if (Array.isArray(response.data) && response.data.length > 0) {
+                    const resultado = response.data[0]; // Accede al primer elemento del array
+                    // Actualiza los estados con los valores de la respuesta
+                    setXganadas(resultado.ganador_X);
+                    setOganadas(resultado.ganador_O);
+                    setempates(resultado.empate);
+                } else {
+                    console.error('Formato de respuesta no válido.');
+                }
             })
             .catch(error => {
                 console.error('Error al obtener los datos de la API:', error);
@@ -81,7 +101,7 @@ const Board = () => {
         if (winner === "X") {
             setXganadas(prevXganadas => prevXganadas + 1);
             // Realizar la solicitud HTTP a la URL correspondiente
-            axios.get('http://localhost:8080/registrar-resultado?ganador=X')
+            axios.get('https://backend-g4uf37rhhq-rj.a.run.app/registrar-resultado?ganador=X')
                 .then(response => {
                     // Manejar la respuesta si es necesario
                 })
@@ -91,7 +111,7 @@ const Board = () => {
         } else if (winner === "O") {
             setOganadas(prevOganadas => prevOganadas + 1);
             // Realizar la solicitud HTTP a la URL correspondiente
-            axios.get('http://localhost:8080/registrar-resultado?ganador=O')
+            axios.get('https://backend-g4uf37rhhq-rj.a.run.app/registrar-resultado?ganador=O')
                 .then(response => {
                     // Manejar la respuesta si es necesario
                 })
@@ -101,7 +121,7 @@ const Board = () => {
         } else if (winner === "empate") {
             setempates(prevempates => prevempates + 1);
             // Realizar la solicitud HTTP a la URL correspondiente
-            axios.get('http://localhost:8080/registrar-resultado?ganador=empate')
+            axios.get('https://backend-g4uf37rhhq-rj.a.run.app/registrar-resultado?ganador=empate')
                 .then(response => {
                     // Manejar la respuesta si es necesario
                 })
