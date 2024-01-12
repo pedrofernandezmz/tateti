@@ -6,21 +6,21 @@ const app = express();
 app.use(cors());
 const port = 8080;
 
-// const pool = createPool({
-//   user: `root`,
-//   password: `pedro123`,
-//   database: `perros`,
-//   socketPath: `/cloudsql/tateti-404421:us-central1:prueba`,
-//  });
+const pool = createPool({
+  user: `root`,
+  password: `pedro123`,
+  database: `perros`,
+  socketPath: `/cloudsql/tateti-404421:us-central1:prueba`,
+ });
 
 // // Configura la conexión a la base de datos MySQL
-const pool = createPool({
-  host: 'localhost', //pruebo en entorno local con DB_HOST=localhost npx mocha
-  user: 'root',
-  password: 'root',
-  database: 'mydb',
-  port: 3306
-});
+// const pool = createPool({
+//   host: 'localhost', //pruebo en entorno local con DB_HOST=localhost npx mocha
+//   user: 'root',
+//   password: 'root',
+//   database: 'mydb',
+//   port: 3306
+// });
 
 app.get("/", async (req, res) => {
 res.json({ status: "Backend Tateti Funcionando! Version 2.0" });
