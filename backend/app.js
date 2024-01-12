@@ -232,11 +232,23 @@ app.get("/", async (req, res) => {
 res.json({ status: "Bark bark! Ready to roll!" });
 });
 
-app.get("/obtener-resultados", async (req, res) => {
-  const query = 'SELECT * FROM contador';
+app.get("/razas", async (req, res) => {
+  const query = 'SELECT * FROM razas';
   pool.query(query, (err, results) => {
     if (err) {
       console.error('Error al obtener razas de perros:', err);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.get("/contador", async (req, res) => {
+  const query = 'SELECT * FROM contador';
+  pool.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener razas de contador:', err);
       res.status(500).json({ error: 'Error interno del servidor' });
     } else {
       res.json(results);
