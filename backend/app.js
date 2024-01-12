@@ -134,7 +134,7 @@ console.log(`BarkBark Rest API listening on port ${port}`);
 });
 
 app.get("/", async (req, res) => {
-res.json({ status: "Bark bark! Ready to roll!" });
+res.json({ status: "Bark bark! Ready to rPENESSSSoll!" });
 });
 
 app.get("/razas", async (req, res) => {
@@ -171,11 +171,11 @@ app.get('/obtener-resultados', async (req, res) => {
       ganador_O: row.ganador_O,
       empate: row.empate,
     };
-    console.log('Mostrar Resultados');
+    console.log('Mostrar Resultado PENEEEs');
     res.status(200).json(resultados);
   } catch (err) {
-    console.error('Error al obtener resultados:', err);
-    res.status(500).json({ error: 'Error al obtener resultados' });
+    console.error('Error al obtener resultados PENEEES:', err);
+    res.status(500).json({ error: 'Error al obtener resultado PENNEEE' });
   }
 });
 
