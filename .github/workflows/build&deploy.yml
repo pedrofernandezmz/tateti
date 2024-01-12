@@ -1,4 +1,4 @@
-name: Build and Deploy Docker Images to Google Cloud
+name: Build & Deploy
 
 on:
   push:
@@ -43,7 +43,7 @@ jobs:
             --region=southamerica-east1 \
             --allow-unauthenticated
 
-      - name: Deploy Backendd
+      - name: Deploy Backend
         run: |
           gcloud run deploy backend \
             --image=docker.io/piterfmz/backend:latest \
