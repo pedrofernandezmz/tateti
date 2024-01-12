@@ -53,12 +53,12 @@ jobs:
           cd backend
           docker build -t $DOCKERHUB_USERNAME/backend:latest .
           docker push $DOCKERHUB_USERNAME/backend:latest
-          cd ../frontend
-          docker build -t $DOCKERHUB_USERNAME/frontend:latest .
-          docker push $DOCKERHUB_USERNAME/frontend:latest
-          cd ../database
-          docker build -t $DOCKERHUB_USERNAME/database:latest .
-          docker push $DOCKERHUB_USERNAME/database:latest
+          # cd ../frontend
+          # docker build -t $DOCKERHUB_USERNAME/frontend:latest .
+          # docker push $DOCKERHUB_USERNAME/frontend:latest
+          # cd ../database
+          # docker build -t $DOCKERHUB_USERNAME/database:latest .
+          # docker push $DOCKERHUB_USERNAME/database:latest
 
       - name: Configure Google Cloud CLI
         uses: google-github-actions/setup-gcloud@v0.4.0
@@ -66,13 +66,13 @@ jobs:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: tateti-404421
 
-      - name: Deploy Frontend
-        run: |
-          gcloud run deploy frontend \
-            --image=docker.io/piterfmz/frontend:latest \
-            --platform=managed \
-            --region=southamerica-east1 \
-            --allow-unauthenticated
+      # - name: Deploy Frontend
+      #   run: |
+      #     gcloud run deploy frontend \
+      #       --image=docker.io/piterfmz/frontend:latest \
+      #       --platform=managed \
+      #       --region=southamerica-east1 \
+      #       --allow-unauthenticated
 
       - name: Deploy Backend
         run: |
