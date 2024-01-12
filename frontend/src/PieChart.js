@@ -29,7 +29,7 @@ const PieChart = ({ xganadas, oganadas, empates }) => {
     return (
       <div style={divStyle}>
         <p>
-          111111111111----Para jugar al Ta-te-ti, sigue estos pasos:
+          22222Para jugar al Ta-te-ti, sigue estos pasos:
           <ol>
             <li>Elige un jugador para ser "X" y otro para ser "O".</li>
             <li>El jugador "X" comienza y coloca su ficha en un espacio vacío del tablero.</li>

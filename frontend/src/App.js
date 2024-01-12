@@ -36,34 +36,14 @@ const Board = () => {
     const [xganadas, setXganadas] = useState(0)
     const [oganadas, setOganadas] = useState(0)
     const [empates, setempates] = useState(0)
-    // useEffect(() => {
-    //     // Realiza una solicitud a la API para obtener los resultados
-    //     axios.get('http://localhost:8080/obtener-resultados')
-    //         .then(response => {
-    //             // Actualiza los estados con los valores de la respuesta
-    //             setXganadas(response.data.ganador_X);
-    //             setOganadas(response.data.ganador_O);
-    //             setempates(response.data.empate);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error al obtener los datos de la API:', error);
-    //         });
-    // }, []);
-
     useEffect(() => {
         // Realiza una solicitud a la API para obtener los resultados
-        axios.get('https://backend-g4uf37rhhq-rj.a.run.app/contador')
+        axios.get('https://backend-g4uf37rhhq-rj.a.run.app/obtener-resultados')
             .then(response => {
-                // Verifica si la respuesta es un array y tiene al menos un elemento
-                if (Array.isArray(response.data) && response.data.length > 0) {
-                    const resultado = response.data[0]; // Accede al primer elemento del array
-                    // Actualiza los estados con los valores de la respuesta
-                    setXganadas(resultado.ganador_X);
-                    setOganadas(resultado.ganador_O);
-                    setempates(resultado.empate);
-                } else {
-                    console.error('Formato de respuesta no válido.');
-                }
+                // Actualiza los estados con los valores de la respuesta
+                setXganadas(response.data.ganador_X);
+                setOganadas(response.data.ganador_O);
+                setempates(response.data.empate);
             })
             .catch(error => {
                 console.error('Error al obtener los datos de la API:', error);
