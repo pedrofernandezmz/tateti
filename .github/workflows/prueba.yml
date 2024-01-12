@@ -1,34 +1,3 @@
-# name: Build and Publish Docker Images
-
-# on:
-#   push:
-#     branches:
-#       - main # Cambia esto al nombre de tu rama principal si es diferent
-
-# jobs:
-#   build-and-publish:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Build and push Docker images
-#         env:
-#           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-#           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-#         run: |
-#           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-#           cd backend # Cambia al directorio del backend
-#           docker build -t $DOCKERHUB_USERNAME/backend:latest .
-#           docker push $DOCKERHUB_USERNAME/backend:latest
-#           cd ../frontend # Cambia al directorio del frontend
-#           docker build -t $DOCKERHUB_USERNAME/frontend:latest .
-#           docker push $DOCKERHUB_USERNAME/frontend:latest
-#           cd ../database # Cambia al directorio de la base de datos
-#           docker build -t $DOCKERHUB_USERNAME/database:latest .
-#           docker push $DOCKERHUB_USERNAME/database:latest
-
 name: Build and Deploy Docker Images to Google Cloud
 
 on:
