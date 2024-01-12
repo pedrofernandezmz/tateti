@@ -134,7 +134,7 @@ console.log(`BarkBark Rest API listening on port ${port}`);
 });
 
 app.get("/", async (req, res) => {
-res.json({ status: "Bark bark! Ready to rPENESSSSoll!" });
+res.json({ status: "Bark bark! Ready to r22222222oll!" });
 });
 
 app.get("/razas", async (req, res) => {
@@ -149,6 +149,23 @@ app.get("/razas", async (req, res) => {
   });
 });
 
+// Ruta para insertar una nueva raza
+app.post("/insertar-raza", async (req, res) => {
+  const { nombre, color } = req.body;
+
+  try {
+    const insertQuery = 'INSERT INTO razas (nombre, color) VALUES (?, ?)';
+    await pool.query(insertQuery, [nombre, color]);
+
+    console.log(`Raza ${nombre} insertada correctamente`);
+    res.status(200).json({ message: `Raza ${nombre} insertada correctamente` });
+  } catch (err) {
+    console.error('Error al insertar raza:', err);
+    res.status(500).json({ error: 'Error interno del servidor al insertar raza' });
+  }
+});
+
+
 app.get("/contador", async (req, res) => {
   const query = 'SELECT * FROM contador';
   pool.query(query, (err, results) => {
@@ -162,7 +179,7 @@ app.get("/contador", async (req, res) => {
 });
 
 // Ruta para obtener los resultados actuales
-app.get('/obtener-resultados', async (req, res) => {
+app.get("/obtener-resultados", async (req, res) => {
   try {
     const [result] = await pool.query('SELECT ganador_X, ganador_O, empate FROM contador');
     const row = result[0];
@@ -171,11 +188,35 @@ app.get('/obtener-resultados', async (req, res) => {
       ganador_O: row.ganador_O,
       empate: row.empate,
     };
-    console.log('Mostrar Resultado PENEEEs');
+    console.log('Mostrar Resultado 2222');
     res.status(200).json(resultados);
   } catch (err) {
-    console.error('Error al obtener resultados PENEEES:', err);
-    res.status(500).json({ error: 'Error al obtener resultado PENNEEE' });
+    console.error('Error al obtener resultados 222222:', err);
+    res.status(500).json({ error: 'Error al obtener resultado 222222' });
+  }
+});
+
+// Ruta para registrar un resultado de juego
+app.get('/registrar-resultado', async (req, res) => {
+  const { ganador } = req.query;
+
+  try {
+    if (ganador === 'X') {
+      await pool.query('UPDATE contador SET ganador_X = ganador_X + 1');
+      console.log('Contador de ganador X actualizado');
+      res.status(200).json({ message: 'Contador de ganador X actualizado' });
+    } else if (ganador === 'O') {
+      await pool.query('UPDATE contador SET ganador_O = ganador_O + 1');
+      console.log('Contador de ganador O actualizado');
+      res.status(200).json({ message: 'Contador de ganador O actualizado' });
+    } else {
+      await pool.query('UPDATE contador SET empate = empate + 1');
+      console.log('Contador de empate actualizado');
+      res.status(200).json({ message: 'Contador de empate actualizado' });
+    }
+  } catch (err) {
+    console.error('Error al actualizar el contador:', err);
+    res.status(500).json({ error: 'Error al actualizar el contador' });
   }
 });
 
