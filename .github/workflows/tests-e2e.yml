@@ -1,0 +1,32 @@
+name: Tests de Integracion
+
+on:
+  workflow_run:
+    workflows: ["Build & Deploy"]
+    types:
+      - completed
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 14
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Correr tests
+      run: npx codeceptjs run
+
+    - name: resultados
+      uses: actions/upload-artifact@v2
+      with:
+        name: codecept-results
+        path: output
