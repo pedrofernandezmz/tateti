@@ -1,15 +1,10 @@
 name: Tests de Integracion
 
-# on:
-#   workflow_run:
-#     workflows: ["Build & Deploy"]
-#     types:
-#       - completed
-
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Build & Deploy"]
+    types:
+      - completed
 
 jobs:
   integration-tests:
