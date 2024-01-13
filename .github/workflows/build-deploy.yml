@@ -4,10 +4,6 @@ on:
   workflow_run:
     workflows: ["Tests Unitarios"]
     types:
-      - completed
-    branches:
-      - main
-    types:
       - success
 
 jobs:
@@ -18,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build and push Docker images
+      - name: Build y push imagenes a DockerHub
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -34,7 +30,7 @@ jobs:
           docker build -t $DOCKERHUB_USERNAME/database:latest .
           docker push $DOCKERHUB_USERNAME/database:latest
 
-      - name: Configure Google Cloud CLI
+      - name: Configurar auth Google Cloud CLI
         uses: google-github-actions/setup-gcloud@v0.4.0
         with:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
