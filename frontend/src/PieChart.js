@@ -31,7 +31,7 @@ const PieChart = ({ xganadas, oganadas, empates }) => {
         <p>
           Para jugar al Ta-te-ti, sigue estos pasos:
           <ol>
-            <li>3.0Elige un jugador para ser "X" y otro para ser "O".</li>
+            <li>Elige un jugador para ser "X" y otro para ser "O".</li>
             <li>El jugador "X" comienza y coloca su ficha en un espacio vacío del tablero.</li>
             <li>Los jugadores se turnan para colocar sus fichas en los espacios vacíos.</li>
             <li>Gana el jugador que forme una línea horizontal, vertical o diagonal con sus fichas.</li>

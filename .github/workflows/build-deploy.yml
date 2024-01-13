@@ -21,11 +21,11 @@ jobs:
         run: |
           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
           cd backend
-          docker build -t $DOCKERHUB_USERNAME/backend:v3 .
-          docker push $DOCKERHUB_USERNAME/backend:v3
+          docker build -t $DOCKERHUB_USERNAME/backend:latest .
+          docker push $DOCKERHUB_USERNAME/backend:latest
           cd ../frontend
-          docker build -t $DOCKERHUB_USERNAME/frontend:v3 .
-          docker push $DOCKERHUB_USERNAME/frontend:v3
+          docker build -t $DOCKERHUB_USERNAME/frontend:latest .
+          docker push $DOCKERHUB_USERNAME/frontend:latest
           cd ../database
           docker build -t $DOCKERHUB_USERNAME/database:latest .
           docker push $DOCKERHUB_USERNAME/database:latest
@@ -39,7 +39,7 @@ jobs:
       - name: Deploy Frontend
         run: |
           gcloud run deploy frontend \
-            --image=docker.io/piterfmz/frontend:v3 \
+            --image=docker.io/piterfmz/frontend:latest \
             --platform=managed \
             --region=southamerica-east1 \
             --allow-unauthenticated
@@ -47,7 +47,7 @@ jobs:
       - name: Deploy Backend
         run: |
           gcloud run deploy backend \
-            --image=docker.io/piterfmz/backend:v3 \
+            --image=docker.io/piterfmz/backend:latest \
             --add-cloudsql-instances tateti-404421:us-central1:prueba \
             --update-env-vars INSTANCE_CONNECTION_NAME=tateti-404421:us-central1:prueba,DB_PASS=pedro123,DB_USER=root,DB_NAME=perros \
             --platform=managed \
