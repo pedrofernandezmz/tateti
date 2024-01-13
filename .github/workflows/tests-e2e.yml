@@ -30,7 +30,7 @@ jobs:
         npm install
 
     - name: Correr tests
-      run: npx codeceptjs run
+      run: xvfb-run npx codeceptjs run
 
     - name: resultados
       uses: actions/upload-artifact@v2
