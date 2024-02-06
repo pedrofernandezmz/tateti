@@ -39,7 +39,7 @@ jobs:
       - name: Deploy Frontend
         run: |
           gcloud run deploy frontend \
-            --image=docker.io/piterfmz/frontend:latest \
+            --image=docker.io/piterfmz/frontend:v4 \
             --platform=managed \
             --region=southamerica-east1 \
             --allow-unauthenticated
@@ -47,9 +47,9 @@ jobs:
       - name: Deploy Backend
         run: |
           gcloud run deploy backend \
-            --image=docker.io/piterfmz/backend:latest \
+            --image=docker.io/piterfmz/backend:v4 \
             --add-cloudsql-instances tateti-404421:us-central1:prueba \
-            --update-env-vars INSTANCE_CONNECTION_NAME=tateti-404421:us-central1:prueba,DB_PASS=pedro123,DB_USER=root,DB_NAME=perros \
+            --update-env-vars INSTANCE_CONNECTION_NAME=tateti-404421:us-central1:prueba,DB_PASS=pedro123,DB_USER=root,DB_NAME=dbtateti \
             --platform=managed \
             --region=southamerica-east1 \
             --allow-unauthenticated

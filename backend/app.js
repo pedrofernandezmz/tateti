@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === 'local') {
 }
 
 app.get("/", async (req, res) => {
-res.json({ status: "Backend Tateti Funcionando! Version 3.5" });
+res.json({ status: "Backend Tateti Funcionando! Version 3.5.1" });
 });
 
 // Ruta para registrar un resultado de juego

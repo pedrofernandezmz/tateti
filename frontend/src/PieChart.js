@@ -35,7 +35,7 @@ const PieChart = ({ xganadas, oganadas, empates }) => {
             <li>El jugador "X" comienza y coloca su ficha en un espacio vacío del tablero.</li>
             <li>Los jugadores se turnan para colocar sus fichas en los espacios vacíos.</li>
             <li>Gana el jugador que forme una línea horizontal, vertical o diagonal con sus fichas.</li>
-            <li>Si todos los espacios se llenan y nadie forma una línea, se considera un empate.</li>
+            <li>Si todos los espacios se llenan y nadie forma una línea se considera empate.</li>
             <li>¡Diviértete!</li>
           </ol>
         </p>
