@@ -21,11 +21,11 @@ jobs:
         run: |
           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
           cd backend
-          docker build -t $DOCKERHUB_USERNAME/backend:latest .
-          docker push $DOCKERHUB_USERNAME/backend:latest
+          docker build -t $DOCKERHUB_USERNAME/backend:v4 .
+          docker push $DOCKERHUB_USERNAME/backend:v4
           cd ../frontend
-          docker build -t $DOCKERHUB_USERNAME/frontend:latest .
-          docker push $DOCKERHUB_USERNAME/frontend:latest
+          docker build -t $DOCKERHUB_USERNAME/frontend:v4 .
+          docker push $DOCKERHUB_USERNAME/frontend:v4
           cd ../database
           docker build -t $DOCKERHUB_USERNAME/database:latest .
           docker push $DOCKERHUB_USERNAME/database:latest

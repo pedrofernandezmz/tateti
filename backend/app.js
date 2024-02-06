@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'local') {
   pool = createPool({
     user: `root`,
     password: `pedro123`,
-    database: `perros`,
+    database: `dbtateti`,
     socketPath: `/cloudsql/tateti-404421:us-central1:prueba`,
   });
 }
