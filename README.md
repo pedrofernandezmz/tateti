@@ -1,5 +1,5 @@
 # tateti
-Proyecto creado para el Trabajo Integrador de Ingeniería de Software III
+Proyecto que consiste en un juego TATETI Multijugador que se encunetra alojado en la Google Cloud haciendo uso de sus servicios como Cloud SQL, Cloud Run, entre otros... Tambien cuenta el repositorio con un despliegue continuo creado con Github Actions.  Creado para el Trabajo Integrador de Ingeniería de Software III
 <img width="1440" alt="Captura de pantalla 2023-10-19 a la(s) 00 18 31" src="https://github.com/user-attachments/assets/e60618c8-299b-4860-a7f9-39db6162327f">
 <img width="1440" alt="Captura de pantalla 2023-10-19 a la(s) 00 18 41" src="https://github.com/user-attachments/assets/764e27b3-356d-4552-b55a-3f19b11ad4f6">
 <img width="1440" alt="Captura de pantalla 2024-02-11 a la(s) 20 40 53" src="https://github.com/user-attachments/assets/aadf3511-a6b6-4cd3-9daf-786045c96e16">
